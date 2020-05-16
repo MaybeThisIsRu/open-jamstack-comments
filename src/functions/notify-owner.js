@@ -5,8 +5,8 @@ exports.handler = (event, context, callback) => {
 	const sgMail = require("@sendgrid/mail");
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-	const ownerEmail = require("../data/site.json").authors.owner.socials.email;
-	const siteName = require("../data/site.json").title;
+	const ownerEmail = "inbox@rusingh.com";
+	const siteName = "Open JAMStack Comments";
 
 	const msg = {
 		to: ownerEmail,
