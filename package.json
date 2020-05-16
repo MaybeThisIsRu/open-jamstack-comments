@@ -9,7 +9,7 @@
 		"dev": "run-s clean develop",
 		"staging": "gulp staging",
 		"prod": "gulp production",
-		"force-prod": "NODE_ENV=production gulp production",
+		"force-prod": "ELEVENTY_ENV=production NODE_ENV=production gulp production",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"husky": {
