@@ -1,0 +1,67 @@
+form {
+  & label {
+    @apply text-gray-700;
+    @apply uppercase;
+    @apply text-sm;
+
+    @screen dm {
+      @apply text-gray-300;
+    }
+  }
+
+  & input,
+  & textarea,
+  & button {
+    @apply px-4 py-2;
+    @apply text-gray-800;
+    @apply bg-gray-200;
+    @apply rounded;
+
+    @screen dm {
+      @apply text-gray-200;
+      @apply bg-gray-800;
+    }
+  }
+
+  & button {
+    @apply block;
+    @apply mx-auto;
+    @apply bg-green-500;
+    @apply text-white text-sm;
+    @apply uppercase;
+    @apply shadow;
+
+    @screen dm {
+      @apply bg-green-800;
+      @apply text-gray-200;
+    }
+
+    &:hover {
+      @apply bg-green-600;
+      @apply shadow-lg;
+
+      @screen dm {
+        @apply bg-green-900;
+      }
+    }
+  }
+
+  & .field {
+    @apply flex flex-col;
+
+    @screen lg {
+      @apply flex-row;
+      @apply items-center;
+
+      & label {
+        @apply w-32;
+        @apply flex-initial;
+      }
+
+      & input,
+      & textarea {
+        @apply flex-1;
+      }
+    }
+  }
+}

@@ -26,7 +26,14 @@ permalink: "/articles/{{ page.date | date: '%Y/%m' }}/{{ page.fileSlug }}/"
 			</div>
 		{%- endif -%}
     </header>
-    <main>
+    <main class="mb-16 lg:mb-24">
         {{ content }}
     </main>
+    <footer>
+        <h2>Submit a new comment</h2>
+        {% include comment-form %}
+        <hr />
+        <h2>All comments</h2>
+        {% include comments %}
+    </footer>
 </article>

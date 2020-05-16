@@ -1,0 +1,9 @@
+{% for comment in comments %}
+    <article>
+        <h3>
+            <a href="{{comment.email}}">{{comment.author}}</a>
+        </h3>
+        <p class="h4">{{comment.time | friendlyDate}}</p>
+        <p>{{comment.content}}</p>
+    </article>
+{% endfor %}

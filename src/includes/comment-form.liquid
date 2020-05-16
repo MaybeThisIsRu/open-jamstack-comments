@@ -1,0 +1,21 @@
+<form action="/comment/success" data-netlify="true" method="POST" name="comment-submissions" netlify-honeypot="age">
+    <div class="field mb-2 lg:mb-3">
+        <label for="name">Name</label>
+        <input id="name" name="name" required type="text"/>
+    </div>
+    <div class="hidden">
+        <label for="age">Age</label>
+        <input id="age" name="age" type="number"/>
+    </div>
+    <div class="field mb-2 lg:mb-3">
+        <label for="email">Email</label>
+        <input id="email" name="email" required type="email"/>
+    </div>
+    <div class="field mb-2 lg:mb-3">
+        <label for="comment">Comment</label>
+        <textarea id="comment" name="comment" required></textarea>
+    </div>
+    <div class="mb-2 lg:mb-3">
+        <button type="submit">Send</button>
+    </div>
+</form>
