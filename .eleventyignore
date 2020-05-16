@@ -1,6 +1,7 @@
 gulpfile.babel.js
 gulp_tasks
 src/assets
+src/functions
 tailwind.config.js
 paths.js
 npm-debug.log
