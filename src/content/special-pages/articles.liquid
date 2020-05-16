@@ -1,0 +1,20 @@
+---
+layout: default
+title: "Articles"
+pagination:
+  data: collections.articles
+  size: 10
+  alias: articles
+permalink: "/articles/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}"
+content-description: "Articles by {{site.authors.owner.name}}"
+---
+<section>
+	{% include page-title title:title %}
+	<main>
+		<ul class="articles">
+			{% for article in articles %}
+    			{% include article-card article:article %}
+			{% endfor %}
+		</ul>
+	</main>
+</section>
