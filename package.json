@@ -1,7 +1,7 @@
 {
-	"name": "smix-eleventy-starter",
-	"version": "0.0.2",
-	"description": "A gulp-based starter kit for @11ty/eleventy and Forestry CMS",
+	"name": "open-jamstack-comments",
+	"version": "0.0.1",
+	"description": "Comments on a static site, inspired by ____, uses emails for moderation",
 	"main": "",
 	"scripts": {
 		"clean": "rm -rf dist && mkdir -p dist/assets",
