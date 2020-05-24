@@ -1,6 +1,6 @@
 # Open JAMstack Comments
 
-Inspired by https://github.com/philhawksworth/jamstack-comments-engine. Uses 📧 email for moderation.
+Inspired by Phil Hawksworth's [Jamstack Comments Engine](https://github.com/philhawksworth/jamstack-comments-engine). Uses 📬 email for comment moderation.
 
 __Work In Progress.__
 
