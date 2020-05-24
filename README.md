@@ -1,11 +1,20 @@
 # Open JAMstack Comments
 
-## Writing a Comments engine based on Netlify Forms API, Functions API, and Sendgrid API
+Inspired by https://github.com/philhawksworth/jamstack-comments-engine. Uses 📧 email for moderation.
 
-* Put form on site per Netlify docs
-* By default, submit comment data to a form called `comment-submissions`
-* A form submission to `comment-submissions` should trigger a Netlify lambda function, specifically on the event `submission-created`
-* The lambda function then uses Functions API & Sendgrid API to send an email to my email address, with things like comment data, an approve URL, and a reject URL
-* Clicking on any of the two URLs should trigger separate handling (delete from `comments-queue` or move to `approved-comments` depending on endpoint triggered).
-* A gulp function that upon build trigger, will collect all submissions into a data file.
-* The data file is then consumed by 11ty.
+__Work In Progress.__
+
+## Configuration
+
+### Environment Variables
+
+- `NETLIFY_PAT` - personal access token for Netlify API
+- `APPROVED_COMMENTS_FORM_ID` - form ID of the form where approved submissions are moved
+- `SENDGRID_API_KEY` - key received from Sendgrid
+
+### Email Web API
+
+I use [Sendgrid](https://sendgrid.com/). They have a free 100 mail/day limit (pretty generous) and a JavaScript library for communicating with their API.
+
+- Configure the `SENDGRID_API_KEY` as listed above.
+- Then update `ownerEmail` and `siteName` in the `notify-owner.js` function.
