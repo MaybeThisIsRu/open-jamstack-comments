@@ -46,10 +46,29 @@ exports.handler = (event, context, callback) => {
 			<p>Please <a href="${approveFnUrl}">approve</a> or <a href="${deleteFnUrl}">delete</a>.</p>
 			`
 	};
-	sgMail.send(msg);
-
-	callback(null, {
-		statusCode: 200,
-		body: "Done!"
-	});
+	sgMail
+		.send(msg)
+		.then(response => {
+			if (response.ok) {
+				callback(null, {
+					statusCode: 200,
+					body: "Done!"
+				});
+			} else {
+				callback(
+					{
+						error: error
+					},
+					null
+				);
+			}
+		})
+		.catch(error => {
+			callback(
+				{
+					error: error
+				},
+				null
+			);
+		});
 };
