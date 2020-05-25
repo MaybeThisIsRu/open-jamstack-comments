@@ -2,10 +2,10 @@ exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const NetlifyAPI = require("netlify");
 	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
-	const { form_id, comment_id, method } = event.queryStringParameters;
+	const { form_id, comment_id, action } = event.queryStringParameters;
 	const { NETLIFY_PAT } = process.env;
 
-	console.log(form_id, comment_id, method);
+	console.log(form_id, comment_id, action);
 
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
@@ -19,10 +19,10 @@ exports.handler = (event, context, callback) => {
 			});
 	};
 
-	if (method === "delete") {
+	if (action === "delete") {
 		console.log("Deleting comment...");
 		deleteComment(comment_id);
-	} else if (method === "approve") {
+	} else if (action === "approve") {
 		console.log("Approving comment...");
 		// Fetch comment details
 		NetlifyClient.listFormSubmission({
