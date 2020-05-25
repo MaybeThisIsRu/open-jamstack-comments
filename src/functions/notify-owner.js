@@ -47,11 +47,9 @@ exports.handler = (event, context, callback) => {
 			`
 	};
 	sgMail.send(msg, false, (error, result) => {
-		// API docs indicate a 202 response with null data on success
+		// API docs indicate a 202 response with null data ('body') on success
 		// https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
-		console.log("result", result);
-		console.log("error", error);
-		if (result) {
+		if (result && result.statusCode === 202) {
 			callback(null, {
 				statusCode: 200,
 				body: "Notification email sent to site owner"
