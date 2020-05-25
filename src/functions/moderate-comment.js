@@ -55,16 +55,13 @@ exports.handler = (event, context, callback) => {
 
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
-				fetch(
-					`${response.site_url}/approved-comments-form-vrFGB4T1rOYLs5Ba/`,
-					{
-						method: "post",
-						body: toFormUrlEncoded(formData),
-						headers: {
-							"Content-Type": "application/x-www-form-urlencoded"
-						}
+				fetch(`${response.site_url}/comment/success`, {
+					method: "post",
+					body: toFormUrlEncoded(formData),
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
 					}
-				)
+				})
 					.then(res => res.json())
 					.then(data => {
 						console.log(data);
