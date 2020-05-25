@@ -11,12 +11,12 @@ exports.handler = (event, context, callback) => {
 	} = event.queryStringParameters;
 	const { APPROVED_COMMENTS_FORM_ID, NETLIFY_PAT } = process.env;
 
-	console.log(submission_id, comment_id, method);
+	console.log(form_id, comment_id, method);
 
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
-	const deleteComment = submission_id => {
-		NetlifyClient.deleteSubmission({ submission_id })
+	const deleteComment = form_id => {
+		NetlifyClient.deleteSubmission({ form_id })
 			.then(response => {
 				console.log(response);
 			})
@@ -27,7 +27,7 @@ exports.handler = (event, context, callback) => {
 
 	if (method === "delete") {
 		console.log("Deleting comment...");
-		deleteComment(submission_id);
+		deleteComment(form_id);
 	} else if (method === "approve") {
 		console.log("Approving comment...");
 		// Fetch comment details
