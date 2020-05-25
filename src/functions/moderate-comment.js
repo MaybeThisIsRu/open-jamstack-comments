@@ -41,18 +41,16 @@ exports.handler = (event, context, callback) => {
 			submission_id: comment_id
 		})
 			.then(response => {
-				console.log(response);
-				const submissionDetails = JSON.parse(response.data);
 				// Construct data and submit as a new submission to approved-comments form
 				// form-name is required by Netlify
 				const formData = {
 					"form-name": "approved-comments",
-					name: submissionDetails.data.name,
-					email: submissionDetails.data.email,
-					comment: submissionDetails.data.comment,
-					referrer: submissionDetails.data.referrer,
+					name: response.data.name,
+					email: response.data.email,
+					comment: response.data.comment,
+					referrer: response.data.referrer,
 					// created_at reserved for Netlify, using submitted_at
-					submitted_at: submissionDetails.created_at
+					submitted_at: response.created_at
 				};
 
 				// Netlify forms do not accept JSON
