@@ -9,8 +9,8 @@ exports.handler = (event, context, callback) => {
 
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
-	const deleteComment = form_id => {
-		NetlifyClient.deleteSubmission({ form_id })
+	const deleteComment = comment_id => {
+		NetlifyClient.deleteSubmission({ submission_id: comment_id })
 			.then(response => {
 				console.log(response);
 			})
