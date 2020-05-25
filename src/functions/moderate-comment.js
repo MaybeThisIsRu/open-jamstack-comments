@@ -39,36 +39,53 @@ exports.handler = (event, context, callback) => {
 		// Fetch comment details
 		NetlifyClient.listFormSubmission({
 			submission_id: comment_id
-		}).then(response => {
-			const submissionDetails = JSON.parse(response.body);
-			// Construct data and submit as a new submission to approved-comments form
-			// form-name is required by Netlify
-			const formData = {
-				"form-name": "approved-comments",
-				name: submissionDetails.data.name,
-				email: submissionDetails.data.email,
-				comment: submissionDetails.data.comment,
-				referrer: submissionDetails.data.referrer,
-				// created_at reserved for Netlify, using submitted_at
-				submitted_at: submissionDetails.created_at
-			};
+		})
+			.then(response => {
+				const submissionDetails = JSON.parse(response.body);
+				// Construct data and submit as a new submission to approved-comments form
+				// form-name is required by Netlify
+				const formData = {
+					"form-name": "approved-comments",
+					name: submissionDetails.data.name,
+					email: submissionDetails.data.email,
+					comment: submissionDetails.data.comment,
+					referrer: submissionDetails.data.referrer,
+					// created_at reserved for Netlify, using submitted_at
+					submitted_at: submissionDetails.created_at
+				};
 
-			// Netlify forms do not accept JSON
-			// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
-			fetch(
-				`https://open-jamstack-comments.netlify.app/approved-comments-form-vrFGB4T1rOYLs5Ba/`,
-				{
-					method: "post",
-					body: toFormUrlEncoded(formData),
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded"
+				// Netlify forms do not accept JSON
+				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
+				fetch(
+					`${response.site_url}/approved-comments-form-vrFGB4T1rOYLs5Ba/`,
+					{
+						method: "post",
+						body: toFormUrlEncoded(formData),
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded"
+						}
 					}
-				}
-			)
-				.then(res => res.json())
-				.then(data => console.log(data));
-			// TODO Delete the comment from comment-submissions
-			// TODO Trigger a rebuild by sending POST to notification hook
-		});
+				)
+					.then(res => res.json())
+					.then(data => {
+						console.log(data);
+						callback(null, {
+							statusCode: 200,
+							msg: "Comment approved successfully."
+						});
+					});
+				// TODO Delete the comment from comment-submissions
+				// TODO Trigger a rebuild by sending POST to notification hook
+			})
+			.catch(error => {
+				console.log(error);
+				callback(
+					{
+						statusCode: 500,
+						msg: error
+					},
+					null
+				);
+			});
 	}
 };
