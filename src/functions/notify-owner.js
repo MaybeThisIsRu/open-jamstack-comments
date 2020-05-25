@@ -46,28 +46,18 @@ exports.handler = (event, context, callback) => {
 			<p>Please <a href="${approveFnUrl}">approve</a> or <a href="${deleteFnUrl}">delete</a>.</p>
 			`
 	};
-	sgMail
-		.send(msg)
-		.then(response => {
-			// API docs indicate a 202 response with null data on success
-			// https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
-			console.log(response);
-			if (response.ok) {
-				callback(null, {
-					statusCode: 200,
-					body: "Notification email sent to site owner"
-				});
-			} else {
-				callback(
-					{
-						statusCode: 500,
-						error: error
-					},
-					null
-				);
-			}
-		})
-		.catch(error => {
+	sgMail.send(msg, false, (error, result) => {
+		// API docs indicate a 202 response with null data on success
+		// https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
+		console.log("result", result);
+		console.log("error", error);
+		if (result) {
+			callback(null, {
+				statusCode: 200,
+				body: "Notification email sent to site owner"
+			});
+		}
+		if (error) {
 			callback(
 				{
 					statusCode: 500,
@@ -75,5 +65,6 @@ exports.handler = (event, context, callback) => {
 				},
 				null
 			);
-		});
+		}
+	});
 };
