@@ -62,7 +62,10 @@ exports.handler = (event, context, callback) => {
 						"Content-Type": "application/x-www-form-urlencoded"
 					}
 				})
-					.then(res => res.json())
+					.then(res => {
+						console.log(res);
+						res.json();
+					})
 					.then(data => {
 						console.log(data);
 						callback(null, {
