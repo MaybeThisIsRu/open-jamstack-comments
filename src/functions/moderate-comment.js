@@ -11,6 +11,8 @@ exports.handler = (event, context, callback) => {
 	} = event.queryStringParameters;
 	const { APPROVED_COMMENTS_FORM_ID, NETLIFY_PAT } = process.env;
 
+	console.log(submission_id, comment_id, method);
+
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
 	const deleteComment = submission_id => {
