@@ -12,11 +12,11 @@ exports.handler = (event, context, callback) => {
 	const functionsBaseUrl = `${site_url}/.netlify/functions/{function_name}`;
 	const deleteFnUrl = functionsBaseUrl.replace(
 		"{function_name}",
-		`delete-comment?form_id=${form_id}&comment_id=${id}`
+		`moderate-comment?form_id=${form_id}&comment_id=${id}&action=delete`
 	);
 	const approveFnUrl = functionsBaseUrl.replace(
 		"{function_name}",
-		`approve-comment?form_id=${form_id}&comment_id=${id}`
+		`moderate-comment?form_id=${form_id}&comment_id=${id}&action=approve`
 	);
 
 	const msg = {

@@ -18,6 +18,14 @@ permalink: "/approved-comments-form-vrFGB4T1rOYLs5Ba/"
         <input id="email" name="email" required type="email"/>
     </div>
     <div>
+        <label for="referrer">Referrer</label>
+        <input id="referrer" name="referrer" required type="text"/>
+    </div>
+    <div>
+        <label for="submitted_at">Email</label>
+        <input id="submitted_at" name="submitted_at" required type="text"/>
+    </div>
+    <div>
         <label for="comment">Comment</label>
         <textarea id="comment" name="comment" required></textarea>
     </div>
