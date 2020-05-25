@@ -72,6 +72,16 @@ exports.handler = (event, context, callback) => {
 							statusCode: 200,
 							msg: "Comment approved successfully."
 						});
+					})
+					.catch(error => {
+						console.log(error);
+						callback(
+							{
+								statusCode: 500,
+								msg: error
+							},
+							null
+						);
 					});
 				// TODO Delete the comment from comment-submissions
 				// TODO Trigger a rebuild by sending POST to notification hook
