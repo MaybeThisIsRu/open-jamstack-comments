@@ -49,14 +49,18 @@ exports.handler = (event, context, callback) => {
 	sgMail
 		.send(msg)
 		.then(response => {
+			// API docs indicate a 202 response with null data on success
+			// https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
+			console.log(response);
 			if (response.ok) {
 				callback(null, {
 					statusCode: 200,
-					body: "Done!"
+					body: "Notification email sent to site owner"
 				});
 			} else {
 				callback(
 					{
+						statusCode: 500,
 						error: error
 					},
 					null
@@ -66,6 +70,7 @@ exports.handler = (event, context, callback) => {
 		.catch(error => {
 			callback(
 				{
+					statusCode: 500,
 					error: error
 				},
 				null
