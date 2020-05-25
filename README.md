@@ -9,6 +9,7 @@ __Work In Progress.__
 ### Environment Variables
 
 - `NETLIFY_PAT` - personal access token for Netlify API
+- `NETLIFY_API_ID` - API ID from the Settings page. This is the Site ID.
 - `APPROVED_COMMENTS_FORM_ID` - form ID of the form where approved submissions are moved
 - `SENDGRID_API_KEY` - key received from Sendgrid
 
