@@ -42,7 +42,7 @@ exports.handler = (event, context, callback) => {
 		})
 			.then(response => {
 				console.log(response);
-				const submissionDetails = JSON.parse(response.body);
+				const submissionDetails = JSON.parse(response.data);
 				// Construct data and submit as a new submission to approved-comments form
 				// form-name is required by Netlify
 				const formData = {
