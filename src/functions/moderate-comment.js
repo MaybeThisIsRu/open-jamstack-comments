@@ -61,28 +61,14 @@ exports.handler = (event, context, callback) => {
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded"
 					}
-				})
-					.then(res => {
-						console.log(res);
-						res.json();
-					})
-					.then(data => {
-						console.log(data);
-						callback(null, {
-							statusCode: 200,
-							msg: "Comment approved successfully."
-						});
-					})
-					.catch(error => {
-						console.log(error);
-						callback(
-							{
-								statusCode: 500,
-								msg: error
-							},
-							null
-						);
+				}).then(data => {
+					// Server would usually respond with a text/html here.
+					console.log(data);
+					callback(null, {
+						statusCode: 200,
+						msg: "Comment approved successfully."
 					});
+				});
 				// TODO Delete the comment from comment-submissions
 				// TODO Trigger a rebuild by sending POST to notification hook
 			})
