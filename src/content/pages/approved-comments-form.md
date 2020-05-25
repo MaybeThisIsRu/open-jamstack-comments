@@ -1,13 +1,17 @@
 ---
 layout: page
 title: "Approved Comments Form"
-permalink: "/approved-comments-form-vrFGB4T1rOYLs5Ba"
+permalink: "/approved-comments-form-vrFGB4T1rOYLs5Ba/"
 ---
 
-<form data-netlify="true" name="approved-comments">
+<form data-netlify="true" netlify-honeypot="gender" name="approved-comments">
     <div>
         <label for="name">Name</label>
         <input id="name" name="name" required type="text"/>
+    </div>
+    <div>
+        <label for="gender">Gender</label>
+        <input id="gender" name="gender" type="text"/>
     </div>
     <div>
         <label for="email">Email</label>
