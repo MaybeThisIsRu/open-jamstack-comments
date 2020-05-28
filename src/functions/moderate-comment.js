@@ -22,6 +22,7 @@ exports.handler = (event, context, callback) => {
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
 	const deleteComment = comment_id => {
+		// TODO Implement Netlify callbacks for success and error
 		NetlifyClient.deleteSubmission({ submission_id: comment_id })
 			.then(response => {
 				console.log(response);
@@ -53,6 +54,8 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
+				console.log(toFormUrlEncoded(formData));
+
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
 				fetch(`${response.site_url}/thank-you/`, {
@@ -61,23 +64,41 @@ exports.handler = (event, context, callback) => {
 					headers: {
 						"Content-Type": "application/x-www-form-urlencoded"
 					}
-				}).then(data => {
-					// Server would usually respond with a text/html here.
-					console.log(data);
-					callback(null, {
-						statusCode: 200,
-						msg: "Comment approved successfully."
+				})
+					.then(data => {
+						console.log(data);
+
+						// Delete the comment from comment-submissions
+						// deleteComment(comment_id);
+
+						// Trigger build
+						// fetch("https://api.netlify.com/build_hooks/5ecf84bcf944641148f65ee4", {
+						// 	method: "POST"
+						// });
+
+						callback(null, {
+							statusCode: 200,
+							body: "Comment approved successfully."
+						});
+					})
+					.catch(error => {
+						console.log(error);
+						callback(
+							{
+								statusCode: 500,
+								body:
+									"An error occured while approving the comment."
+							},
+							null
+						);
 					});
-				});
-				// TODO Delete the comment from comment-submissions
-				// TODO Trigger a rebuild by sending POST to notification hook
 			})
 			.catch(error => {
 				console.log(error);
 				callback(
 					{
 						statusCode: 500,
-						msg: error
+						body: error
 					},
 					null
 				);
