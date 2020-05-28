@@ -4,7 +4,7 @@ title: "Approved Comments Form"
 permalink: "/approved-comments-form-vrFGB4T1rOYLs5Ba/"
 ---
 
-<form data-netlify="true" netlify-honeypot="gender" name="approved-comments">
+<form data-netlify="true" action="/thank-you/" method="POST" netlify-honeypot="gender" name="approved-comments">
     <div>
         <label for="name">Name</label>
         <input id="name" name="name" required type="text"/>
