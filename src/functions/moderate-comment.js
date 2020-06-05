@@ -1,17 +1,3 @@
-// https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-3062641
-/**
- * @param {Object} object
- * @return {string}
- */
-const toFormUrlEncoded = object => {
-	return Object.entries(object)
-		.map(
-			([key, value]) =>
-				`${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-		)
-		.join("&");
-};
-
 exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const NetlifyAPI = require("netlify");
@@ -55,8 +41,7 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
-				const paramString = toFormUrlEncoded(commentData);
-				const formData = new URLSearchParams(paramString);
+				const formData = new URLSearchParams(commentData);
 
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
