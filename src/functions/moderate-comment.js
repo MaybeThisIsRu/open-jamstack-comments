@@ -41,13 +41,15 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
-				const formData = new URLSearchParams(commentData);
-
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
 				fetch(`${response.site_url}/thank-you/`, {
 					method: "POST",
-					body: formData
+					body: new URLSearchParams(commentData).toString(),
+					headers: {
+						"Content-Type":
+							"application/x-www-form-urlencoded;charset=UTF-8"
+					}
 				})
 					.then(data => {
 						console.log(data);
