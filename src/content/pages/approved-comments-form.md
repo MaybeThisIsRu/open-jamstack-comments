@@ -22,7 +22,7 @@ permalink: "/approved-comments-form-vrFGB4T1rOYLs5Ba/"
         <input id="referrer" name="referrer" required type="text"/>
     </div>
     <div>
-        <label for="submitted_at">Email</label>
+        <label for="submitted_at">Submitted At</label>
         <input id="submitted_at" name="submitted_at" required type="text"/>
     </div>
     <div>
