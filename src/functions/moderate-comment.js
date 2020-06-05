@@ -27,6 +27,7 @@ const toFormUrlEncoded = object => {
 
 exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
+	const url = require("url");
 	const NetlifyAPI = require("netlify");
 	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
 	const qs = require("qs");
@@ -80,8 +81,10 @@ exports.handler = (event, context, callback) => {
 				// 2020-06-05 Using curl, had success with the following:
 				// curl -X POST -H "Content-Type=application/x-www-form-urlencoded" -d "name=Cat&form-name=approved-comments" https://open-jamstack-comments.netlify.app/thank-you/
 
-				const endpoint = `${response.site_url}/thank-you/`;
-
+				let endpoint = new url(`${response.site_url}/thank-you/`);
+				if (endpoint.protocol === "http:") {
+					endpoint.protocol = "https:";
+				}
 				console.log("Sending data to", endpoint);
 
 				// Netlify forms do not accept JSON
