@@ -1,3 +1,18 @@
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+/**
+ *
+ * @param {string} str
+ * @return {string}
+ * @description Be more stringent in adhering to RFC 3986 (which reserves !, ', (, ), and *), even though these characters have no formalized URI delimiting uses.
+ */
+const fixedEncodeURIComponent = function(str) {
+	return encodeURIComponent(str)
+		.replace(/[!'()*]/g, function(c) {
+			return "%" + c.charCodeAt(0).toString(16);
+		})
+		.replace(/%20/g, "+");
+};
+
 // https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-3062641
 /**
  * @param {Object} object
@@ -7,7 +22,7 @@ const toFormUrlEncoded = object => {
 	return Object.entries(object)
 		.map(
 			([key, value]) =>
-				`${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+				`${encodeURIComponent(key)}=${fixedEncodeURIComponent(value)}`
 		)
 		.join("&");
 };
