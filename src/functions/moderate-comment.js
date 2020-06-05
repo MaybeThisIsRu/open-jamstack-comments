@@ -51,6 +51,7 @@ exports.handler = (event, context, callback) => {
 							"application/x-www-form-urlencoded;charset=UTF-8"
 					}
 				})
+					.then(data => data.json())
 					.then(data => {
 						console.log(data);
 
