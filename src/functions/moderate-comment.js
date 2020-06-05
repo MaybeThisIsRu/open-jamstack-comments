@@ -44,7 +44,7 @@ exports.handler = (event, context, callback) => {
 			.then(response => {
 				// Construct data and submit as a new submission to approved-comments form
 				// form-name is required by Netlify
-				const formData = {
+				const commentData = {
 					"form-name": "approved-comments",
 					name: response.data.name,
 					email: response.data.email,
@@ -54,16 +54,14 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
-				console.log(toFormUrlEncoded(formData));
+				const paramString = toFormUrlEncoded(commentData);
+				const formData = new URLSearchParams(paramString);
 
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
 				fetch(`${response.site_url}/thank-you/`, {
 					method: "POST",
-					body: toFormUrlEncoded(formData),
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded"
-					}
+					body: formData
 				})
 					.then(data => {
 						console.log(data);
@@ -98,7 +96,8 @@ exports.handler = (event, context, callback) => {
 				callback(
 					{
 						statusCode: 500,
-						body: error
+						body:
+							"An error occured while fetching details for this comment. Please try again later or check the server logs."
 					},
 					null
 				);
