@@ -16,6 +16,7 @@ exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const NetlifyAPI = require("netlify");
 	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
+	const { URLSearchParams } = require("url");
 	const { form_id, comment_id, action } = event.queryStringParameters;
 	const { NETLIFY_PAT } = process.env;
 
