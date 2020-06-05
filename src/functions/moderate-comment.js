@@ -1,38 +1,14 @@
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-/**
- *
- * @param {string} str
- * @return {string}
- * @description Be more stringent in adhering to RFC 3986 (which reserves !, ', (, ), and *), even though these characters have no formalized URI delimiting uses.
- */
-const fixedEncodeURIComponent = function(str) {
-	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
-		return "%" + c.charCodeAt(0).toString(16);
-	});
-};
-
-// https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-3062641
-/**
- * @param {Object} object
- * @return {string}
- */
-const toFormUrlEncoded = object => {
-	return Object.entries(object)
-		.map(
-			([key, value]) =>
-				`${encodeURIComponent(key)}=${fixedEncodeURIComponent(value)}`
-		)
-		.join("&");
-};
-
 exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const { URL } = require("url");
 	const NetlifyAPI = require("netlify");
-	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
+	const fetch = require("node-fetch");
 	const qs = require("qs");
-	const { form_id, comment_id, action } = event.queryStringParameters;
+
+	const { comment_id, action } = event.queryStringParameters;
 	const { NETLIFY_PAT } = process.env;
+	const BUILD_HOOK =
+		"https://api.netlify.com/build_hooks/5ecf84bcf944641148f65ee4";
 
 	const NetlifyClient = new NetlifyAPI(NETLIFY_PAT);
 
@@ -58,13 +34,13 @@ exports.handler = (event, context, callback) => {
 		})
 			.then(response => {
 				// Construct data and submit as a new submission to approved-comments form
-				// form-name is required by Netlify
 				const formData = {
+					// form-name is required by Netlify
 					"form-name": "approved-comments",
 					name: response.data.name,
 					email: response.data.email,
 					comment: response.data.comment,
-					referrer: response.data.referrer,
+					referrer: new URL(response.data.referrer).pathname,
 					// created_at reserved for Netlify, using submitted_at
 					submitted_at: response.created_at
 				};
@@ -78,17 +54,13 @@ exports.handler = (event, context, callback) => {
 					paramString
 				);
 
-				// 2020-06-05 Using curl, had success with the following:
-				// curl -X POST -H "Content-Type=application/x-www-form-urlencoded" -d "name=Cat&form-name=approved-comments" https://open-jamstack-comments.netlify.app/thank-you/
-
 				let endpoint = new URL(`${response.site_url}/thank-you/`);
 				if (endpoint.protocol === "http:") {
 					endpoint.protocol = "https:";
 				}
 				console.log("Sending data to", endpoint);
 
-				// Netlify forms do not accept JSON
-				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
+				// Netlify forms do not accept JSON - https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
 				fetch(endpoint, {
 					method: "POST",
 					body: paramString,
@@ -100,12 +72,10 @@ exports.handler = (event, context, callback) => {
 						console.log(data);
 
 						// Delete the comment from comment-submissions
-						// deleteComment(comment_id);
+						deleteComment(comment_id);
 
 						// Trigger build
-						// fetch("https://api.netlify.com/build_hooks/5ecf84bcf944641148f65ee4", {
-						// 	method: "POST"
-						// });
+						fetch(BUILD_HOOK, { method: "POST" });
 
 						callback(null, {
 							statusCode: 200,

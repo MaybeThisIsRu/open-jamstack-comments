@@ -8,15 +8,15 @@ exports.handler = (event, context, callback) => {
 	const ownerEmail = "inbox@rusingh.com";
 	const siteName = "Open JAMStack Comments";
 	const details = JSON.parse(event.body);
-	const { id, form_id, site_url } = details;
+	const { id, site_url } = details;
 	const functionsBaseUrl = `${site_url}/.netlify/functions/{function_name}`;
 	const deleteFnUrl = functionsBaseUrl.replace(
 		"{function_name}",
-		`moderate-comment?form_id=${form_id}&comment_id=${id}&action=delete`
+		`moderate-comment?comment_id=${id}&action=delete`
 	);
 	const approveFnUrl = functionsBaseUrl.replace(
 		"{function_name}",
-		`moderate-comment?form_id=${form_id}&comment_id=${id}&action=approve`
+		`moderate-comment?comment_id=${id}&action=approve`
 	);
 
 	const msg = {
