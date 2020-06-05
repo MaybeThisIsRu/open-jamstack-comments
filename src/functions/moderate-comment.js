@@ -6,11 +6,9 @@
  * @description Be more stringent in adhering to RFC 3986 (which reserves !, ', (, ), and *), even though these characters have no formalized URI delimiting uses.
  */
 const fixedEncodeURIComponent = function(str) {
-	return encodeURIComponent(str)
-		.replace(/[!'()*]/g, function(c) {
-			return "%" + c.charCodeAt(0).toString(16);
-		})
-		.replace(/%20/g, "+");
+	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+		return "%" + c.charCodeAt(0).toString(16);
+	});
 };
 
 // https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-3062641
@@ -31,6 +29,7 @@ exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const NetlifyAPI = require("netlify");
 	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
+	const qs = require("qs");
 	const { form_id, comment_id, action } = event.queryStringParameters;
 	const { NETLIFY_PAT } = process.env;
 
@@ -69,7 +68,9 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
-				const paramString = toFormUrlEncoded(formData);
+				const paramString = qs.stringify(formData, {
+					charset: "utf-8"
+				});
 
 				console.log(
 					"Form data being submitted to approved-comments form:",
