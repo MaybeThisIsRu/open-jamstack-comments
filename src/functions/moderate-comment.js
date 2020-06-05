@@ -1,8 +1,21 @@
+// https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-3062641
+/**
+ * @param {Object} object
+ * @return {string}
+ */
+const toFormUrlEncoded = object => {
+	return Object.entries(object)
+		.map(
+			([key, value]) =>
+				`${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+		)
+		.join("&");
+};
+
 exports.handler = (event, context, callback) => {
 	// Description: Copy to approved-comments form, then delete from comment-submissins form
 	const NetlifyAPI = require("netlify");
 	const fetch = require("node-fetch"); // Netlify doesn't offer an endpoint for creating a form submission
-	const { URLSearchParams } = require("url");
 	const { form_id, comment_id, action } = event.queryStringParameters;
 	const { NETLIFY_PAT } = process.env;
 
@@ -31,7 +44,7 @@ exports.handler = (event, context, callback) => {
 			.then(response => {
 				// Construct data and submit as a new submission to approved-comments form
 				// form-name is required by Netlify
-				const commentData = {
+				const formData = {
 					"form-name": "approved-comments",
 					name: response.data.name,
 					email: response.data.email,
@@ -41,13 +54,28 @@ exports.handler = (event, context, callback) => {
 					submitted_at: response.created_at
 				};
 
-				const formData = new URLSearchParams(commentData);
+				const paramString = toFormUrlEncoded(formData);
+
+				console.log(
+					"Form data being submitted to approved-comments form:",
+					paramString
+				);
+
+				// 2020-06-05 Using curl, had success with the following:
+				// curl -X POST -H "Content-Type=application/x-www-form-urlencoded" -d "name=Cat&form-name=approved-comments" https://open-jamstack-comments.netlify.app/thank-you/
+
+				const endpoint = `${response.site_url}/thank-you/`;
+
+				console.log("Sending data to", endpoint);
 
 				// Netlify forms do not accept JSON
 				// https://docs.netlify.com/forms/setup/#submit-forms-via-ajax
-				fetch(`${response.site_url}/thank-you/`, {
+				fetch(endpoint, {
 					method: "POST",
-					body: formData
+					body: paramString,
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					}
 				})
 					.then(data => {
 						console.log(data);
