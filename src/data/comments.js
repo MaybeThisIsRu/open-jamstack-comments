@@ -22,7 +22,7 @@ const getCache = (path = CACHE_PATH) => {
 	} else {
 		return {
 			lastFetched: new Date(),
-			comments: []
+			items: []
 		};
 	}
 };
@@ -69,23 +69,23 @@ const getLiveComments = (form_id = APPROVED_COMMENTS_FORM_ID) => {
 };
 
 /**
- * @returns {Object} Last fetched date and comments data. Could be live or cached.
+ * @returns {Promise} Last fetched date and comments data. Could be live or cached.
  */
-const handler = () => {
-	getLiveComments()
-		.then(response => {
-			const merged = mergeComments(response, getCache());
-			const toReturn = {
-				lastFetched: new Date(),
-				items: merged
-			};
-			writeCache(toReturn);
-			return toReturn;
-		})
-		.catch(error => {
-			console.warn(error);
-			return getCache();
-		});
+module.exports = () => {
+	return new Promise((resolve, reject) => {
+		getLiveComments()
+			.then(response => {
+				const merged = mergeComments(response, getCache());
+				const mergedWithDate = {
+					lastFetched: new Date(),
+					items: merged
+				};
+				writeCache(mergedWithDate);
+				resolve(mergedWithDate);
+			})
+			.catch(error => {
+				console.warn(error);
+				resolve(getCache());
+			});
+	});
 };
-
-module.exports = handler;

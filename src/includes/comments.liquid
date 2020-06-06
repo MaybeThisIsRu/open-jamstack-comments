@@ -1,9 +1,20 @@
-{% for comment in comments %}
-    <article>
-        <h3>
-            <a href="{{comment.email}}">{{comment.author}}</a>
-        </h3>
-        <p class="h4">{{comment.time | friendlyDate}}</p>
-        <p>{{comment.content}}</p>
-    </article>
-{% endfor %}
+{% assign articleComments = comments.items | filterCommentsForPath: path %}
+{% assign articleCommentsLength = articleComments | size %}
+<h2 class="h3">All comments ({{articleCommentsLength}})</h2>
+{% if articleCommentsLength == 0 %}
+    <p>Uh oh! No comments here!</p>
+{% else %}
+    {% for articleComment in articleComments %}
+        <article>
+            <header class="flex flex-col lg:flex-row lg:justify-between lg:items-baseline mb-2">
+                <h3 class="h5">
+                    <a href="mailto:{{articleComment.data.email}}">{{articleComment.data.name}}</a>
+                </h3>
+                <time datetime="{{articleComment.data.submitted_at}}">{{articleComment.data.submitted_at | friendlyDate}}</datetime>
+            </header>
+            <main>
+                <p class="bg-gray-100 dm:bg-gray-900 py-4 px-8 rounded-lg">{{articleComment.data.comment}}</p>
+            </main>
+        </article>
+    {% endfor %}
+{% endif %}

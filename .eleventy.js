@@ -6,6 +6,7 @@ module.exports = function(config) {
 	const collectionFilters = require("./eleventy/filters/collections");
 	const urlFilters = require("./eleventy/filters/urls");
 	const dateFilters = require("./eleventy/filters/dates");
+	const commentFilters = require("./eleventy/filters/comments");
 
 	// *** Shortcode imports
 	const shortcodes = require("./eleventy/shortcodes");
@@ -43,6 +44,11 @@ module.exports = function(config) {
 	config.addFilter("dateInISO8601", dateFilters.dateInISO8601);
 	// Filter posts per tag
 	config.addFilter("byTag", collectionFilters.byTag);
+	// Comments
+	config.addFilter(
+		"filterCommentsForPath",
+		commentFilters.filterCommentsForPath
+	);
 	// Optional - absolute url
 	config.addFilter("absoluteUrl", urlFilters.absoluteUrl);
 	// Optional - overriding RSS plugin's filter so we can parse the date using our own date filters
