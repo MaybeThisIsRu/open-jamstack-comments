@@ -1,6 +1,8 @@
 .vscode
 node_modules
 dist
+.env
+!.env.example
 
 # Local Netlify folder
 .netlify
