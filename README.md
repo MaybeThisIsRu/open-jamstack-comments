@@ -2,8 +2,6 @@
 
 Inspired by Phil Hawksworth's [Jamstack Comments Engine](https://github.com/philhawksworth/jamstack-comments-engine). Uses 📬 email for comment moderation.
 
-__Work In Progress.__
-
 ## Configuration
 
 ### Environment Variables
