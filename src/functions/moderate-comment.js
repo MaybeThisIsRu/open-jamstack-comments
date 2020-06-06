@@ -40,7 +40,7 @@ exports.handler = (event, context, callback) => {
 					name: response.data.name,
 					email: response.data.email,
 					comment: response.data.comment,
-					referrer: new URL(response.data.referrer).pathname,
+					path: new URL(response.data.referrer).pathname,
 					// created_at reserved for Netlify, using submitted_at
 					submitted_at: response.created_at
 				};
