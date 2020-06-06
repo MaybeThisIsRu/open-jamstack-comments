@@ -14,20 +14,20 @@ form {
   & button {
     @apply px-4 py-2;
     @apply text-gray-800;
-    @apply bg-gray-200;
+    @apply bg-gray-100;
     @apply rounded;
 
     @screen dm {
       @apply text-gray-200;
-      @apply bg-gray-800;
+      @apply bg-gray-900;
     }
   }
 
   & button {
     @apply block;
-    @apply mx-auto;
-    @apply bg-green-500;
-    @apply text-white text-sm;
+    @apply px-4;
+    @apply bg-green-200;
+    @apply text-black text-sm;
     @apply uppercase;
     @apply shadow;
 
@@ -54,7 +54,7 @@ form {
       @apply items-center;
 
       & label {
-        @apply w-32;
+        @apply w-24;
         @apply flex-initial;
       }
 

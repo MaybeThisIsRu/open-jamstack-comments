@@ -10,8 +10,9 @@ h5,
 .h5,
 h6,
 .h6 {
-  @apply font-medium;
+  @apply font-bold;
   @apply leading-tight;
+  @apply tracking-tight;
   @apply text-gray-700;
   @apply mt-4 mb-1;
 
