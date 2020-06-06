@@ -1,7 +1,7 @@
 {
 	"name": "open-jamstack-comments",
-	"version": "0.0.1",
-	"description": "Comments on a static site, inspired by ____, uses emails for moderation",
+	"version": "0.1.0",
+	"description": "Comments on a static site, inspired by Phil's Jamstack Comments Engine, uses emails for moderation",
 	"main": "",
 	"scripts": {
 		"clean": "rm -rf dist && mkdir -p dist/assets",
